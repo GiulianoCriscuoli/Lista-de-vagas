@@ -28,8 +28,8 @@
                     <td><?= date('d/m/Y : H:i:s', strtotime($work->date)) ?></td>
                     <td>
                         <a href="listWork.php?id=<?= $work->id; ?>" class="btn btn-sm btn-info">Visualizar</a>
-                        <a class="btn btn-sm btn-primary">Editar</a>
-                        <a class="btn btn-sm btn-danger">Excluir</a>
+                        <a href="updateWork.php?id=<?= $work->id; ?>" class="btn btn-sm btn-primary">Editar</a>
+                        <a href="deleteWork.php?id=<?= $work->id; ?>" class="btn btn-sm btn-danger">Excluir</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

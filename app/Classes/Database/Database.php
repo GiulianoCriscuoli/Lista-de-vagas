@@ -46,54 +46,7 @@ class Database {
         $this->connect = null;
     }
 
-    // private function execute(string $query, array $params = []) {
-
-    //     try {
-
-    //         if(isset($params)) {
-            
-    //             if(gettype($query) === 'string') {
-    
-    //                 $statement = $this->connect->prepare($query);
-    //                 $statement->execute($params);
-        
-    //                 return $statement;
-    //             }
-    //         }
-
-    //     } catch(PDOException $e) {
-
-    //         throw new Exception("Erro ao inserir um novo registro: ". $e->getMessage());
-
-    //     }
-    // }
-
-    // public function insert(array $values) {
-
-    //     $fields = array_keys($values);
-    //     $values = array_values($values);
-
-    //     $binds = array_pad([], count($fields), '?');
-    //     $binds = implode(", ", $binds);
-
-    //     $fields = implode(", ", $fields);
-
-    //     $query = 'INSERT INTO '.$this->table. '('.$fields.') VALUES('.$binds.')';
-
-    //     if(!preg_match('/^INSERT/i', $query)) {
-
-    //         throw new Exception("Este não é um método insert");
-    //     }
-        
-    //     $this->execute($query, $values);
-
-    //     return $this->connect->lastInsertId();
-
-    // }
-
     private function execute($query, array $params = []) {
-
-        // die(print_r($params));
 
         try {
 
@@ -119,7 +72,6 @@ class Database {
 
         $query = "INSERT INTO ".$this->table. "(".$values.") VALUES(".$binds.")";
         
-
         $this->execute($query, $fields);
 
         return $this->connect->lastInsertId();
@@ -136,6 +88,61 @@ class Database {
         $results = $this->execute($query);
 
         return $results;
+    }
+
+    public function update($id, array $values) {
+
+        try {
+
+            if($id) {
+
+                $fields = array_keys($values);
+                $setters = [];
+    
+                foreach($fields as $field) {
+    
+                    $setters[] .= $field.'=?';
+                }
+    
+                $setters = implode(", ", $setters);
+    
+                $query = "UPDATE ". $this->table. " SET ".$setters. " WHERE ".$id;
+    
+                $this->execute($query, array_values($values));
+
+                header("Location: index?status=success");
+                exit;
+    
+                return true;
+    
+            }
+
+        } catch(PDOException $e) {
+
+            die("Erro ao atualizar o registro". $e->getMessage());
+            exit;
+        }
+    }
+
+
+    public function delete($id) {
+
+        try {
+
+            if($id) {
+
+                $query = "DELETE FROM " .$this->table. " WHERE ".$id;
+
+                $this->Execute($query);
+
+                return true;
+
+            }
+
+        } catch (PDOException $e) {
+            
+            throw new exception("Erro ao deletar registro. ".$e->getMessage());
+        }
     }
 
 }
