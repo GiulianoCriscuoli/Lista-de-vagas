@@ -133,7 +133,7 @@ class Database {
 
                 $query = "DELETE FROM " .$this->table. " WHERE ".$id;
 
-                $this->Execute($query);
+                $this->execute($query);
 
                 return true;
 
@@ -143,6 +143,25 @@ class Database {
             
             throw new exception("Erro ao deletar registro. ".$e->getMessage());
         }
+    }
+
+    public function updateCustomFields($id, array $values) {
+
+        $fields = array_values($values);
+        $binds = array_keys($values);
+        foreach($binds as $bind) {
+
+            $setters[] = $bind. '=?';
+
+        }
+
+        $setters = implode(',', $setters);
+        
+        $query = 'UPDATE '.$this->table. ' SET '.$setters. ' WHERE '.$id;
+
+        $this->execute($query, $fields);
+
+        return true;
     }
 
 }

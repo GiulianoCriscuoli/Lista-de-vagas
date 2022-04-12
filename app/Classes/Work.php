@@ -47,7 +47,7 @@ class Work {
 
         if($id) {
 
-            if(isset($_POST['name']) && isset($_POST['description']) && isset($_POST['active'])) {
+            if(isset($_POST['name']) && isset($_POST['description'])) {
 
                 $_POST['date'] = date('Y-m-d H:i:s');
                 
@@ -82,5 +82,23 @@ class Work {
             header("Location:index?status=error");
             exit;
         }
+    }
+
+    public function upadateHoWork($id) {
+
+        if($id) {
+            
+            $database = new Database('works');
+            $return = $database->updateCustomFields('id='.$id, [
+                'hotwork' => $_POST['hotwork']
+            ]);
+
+            if($return) {
+
+                header("Location: index.php?status=success");
+                exit;
+            }
+        }
+
     }
 }
