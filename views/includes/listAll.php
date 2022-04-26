@@ -63,7 +63,7 @@
                         <td style="display: flex; justify-content: space-evenly;">
                             <a href="listWork.php?id=<?= $work->id; ?>" class="btn btn-sm btn-info">Visualizar</a>
                             <a href="updateWork.php?id=<?= $work->id; ?>" class="btn btn-sm btn-primary">Editar</a>
-                            <a href="destroyWork.php?id=<?= $work->id; ?>" class="btn btn-sm btn-danger">Excluir</a>
+                            <a href="deleteWork.php?id=<?= $work->id; ?>" class="btn btn-sm btn-danger">Excluir</a>
                             <form data-id="<?=$work->id; ?>"action="hotWork.php?id=<?= $work->id; ?>" class="form-group" method="POST">
                                 <div class="form-check">
                                     <input 

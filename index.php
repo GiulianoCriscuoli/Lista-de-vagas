@@ -5,13 +5,14 @@ require './vendor/autoload.php';
 use App\Classes\Work;
 
 $search = filter_input(INPUT_GET, "search", FILTER_SANITIZE_STRING);
-// $active = filter_input("INPUT_GET", "active", FILTER_SANITIZE_STRING);
+$activeFilter = filter_input(INPUT_GET, "active", FILTER_SANITIZE_STRING);
 
-// $active = in_array(['s, n'], $active) ? $active : null;
+$activeFilter = in_array($activeFilter, ['s', 'n']) ? $activeFilter : null;
 
 $conditionSQL = [
     
-    isset($search) && strlen($search) ?  ' name LIKE "%'. $search. '%"' : null  
+    isset($search) && strlen($search) ? ' name LIKE "%'. str_replace(' ', '%', $search). '%"' : null,
+    isset($activeFilter) && strlen($activeFilter) ? ' active="'. $activeFilter.'"' : null
 ];
 
 $conditionSQL = array_filter($conditionSQL);
